@@ -1,0 +1,39 @@
+function [C_a, C_b, C_c, C_d] = sus_coefficients(mu0, nu0)
+
+global R_l2g
+
+C_a = zeros(4, 4);
+C_b = zeros(4, 4);
+C_c = zeros(4, 4);
+C_d = zeros(4, 4);
+
+for alpha = 1:4
+  for beta = 1:4
+   
+    T_alpha = reshape(R_l2g(alpha, :, :), 3, 3);
+    T_beta  = reshape(R_l2g(beta, :, :), 3, 3);
+    
+    C_a(alpha, beta) = T_alpha(mu0, 1) * T_beta(nu0, 1) ...
+                     - T_alpha(mu0, 2) * T_beta(nu0, 2) ...
+                     - 1i*T_alpha(mu0, 2) * T_beta(nu0, 1) ...
+                     - 1i*T_alpha(mu0, 1) * T_beta(nu0, 2); 
+
+    C_b(alpha, beta) = T_alpha(mu0, 1) * T_beta(nu0, 1) ...
+                     - T_alpha(mu0, 2) * T_beta(nu0, 2) ...
+                     + 1i*T_alpha(mu0, 2) * T_beta(nu0, 1) ...
+                     + 1i*T_alpha(mu0, 1) * T_beta(nu0, 2); 
+
+    C_c(alpha, beta) = T_alpha(mu0, 1) * T_beta(nu0, 1) ...
+                     + T_alpha(mu0, 2) * T_beta(nu0, 2) ...
+                     + 1i*T_alpha(mu0, 2) * T_beta(nu0, 1) ...
+                     - 1i*T_alpha(mu0, 1) * T_beta(nu0, 2); 
+
+    C_d(alpha, beta) = T_alpha(mu0, 1) * T_beta(nu0, 1) ...
+                     + T_alpha(mu0, 2) * T_beta(nu0, 2) ...
+                     - 1i*T_alpha(mu0, 2) * T_beta(nu0, 1) ...
+                     + 1i*T_alpha(mu0, 1) * T_beta(nu0, 2); 
+      
+  end
+end
+
+
